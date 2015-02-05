@@ -35,6 +35,9 @@
       <PackagePath>Assets\StoreLogo.scale-100.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
     </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\kvenc_000\Documents\GitHub\CastPod\CastPod\CastPod\CastPod.Windows\Assets\soundFiles\wn.wav">
+      <PackagePath>Assets\soundFiles\wn.wav</PackagePath>
+    </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\kvenc_000\Documents\GitHub\CastPod\CastPod\CastPod\CastPod.Windows\bin\Debug\App.xbf">
       <PackagePath>App.xbf</PackagePath>
     </AppxPackagedFile>

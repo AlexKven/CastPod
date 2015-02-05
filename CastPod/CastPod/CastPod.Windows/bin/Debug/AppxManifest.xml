@@ -29,6 +29,7 @@
   </Applications>
   <Capabilities>
     <Capability Name="internetClient" />
+    <Capability Name="musicLibrary" />
   </Capabilities>
   <build:Metadata>
     <build:Item Name="SharedGUID" Value="10ed8f96-fdad-4197-9d68-2fc4fd28ba9f" />

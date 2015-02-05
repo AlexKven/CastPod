@@ -10,6 +10,8 @@
     d:DesignWidth="400">
     
     <Grid>
-        <MediaElement />
+        <MediaElement x:Name="MainMediaElement" />
+        <Button VerticalAlignment="Top" Width="200" HorizontalAlignment="Center" Click="GoButton_Click">Go</Button>
+        <TextBox x:Name="PathBox" VerticalAlignment="Bottom" HorizontalAlignment="Stretch"/>
     </Grid>
 </UserControl>
