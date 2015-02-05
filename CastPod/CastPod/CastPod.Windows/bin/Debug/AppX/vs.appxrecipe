@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Machine>REINEMER</Machine>
+    <WindowsUser>kvenc_000</WindowsUser>
+    <TargetPlatformIdentifier>Windows</TargetPlatformIdentifier>
+    <SolutionConfiguration>Debug|AnyCPU</SolutionConfiguration>
+    <PackageArchitecture>neutral</PackageArchitecture>
+    <PackageIdentityName>43d4a7f1-a809-4539-b539-5a638f1ad570</PackageIdentityName>
+    <IntermediateOutputPath>C:\Users\kvenc_000\Documents\GitHub\CastPod\CastPod\CastPod\CastPod.Windows\obj\Debug\</IntermediateOutputPath>
+    <RegisteredManifestChecksum>A46540CF10A222C46CA373DCACF35B9B7B85D891CBE7CDB139F0F2C4535B0C39</RegisteredManifestChecksum>
+    <RegisteredPackageMoniker>43d4a7f1-a809-4539-b539-5a638f1ad570_1.0.0.0_neutral__w6dkvwkttcc56</RegisteredPackageMoniker>
+    <RegisteredUserModeAppID>43d4a7f1-a809-4539-b539-5a638f1ad570_w6dkvwkttcc56!App</RegisteredUserModeAppID>
+    <RegisteredPackageID>43d4a7f1-a809-4539-b539-5a638f1ad570</RegisteredPackageID>
+    <RegisteredPackagePublisher>CN=kvenc_000</RegisteredPackagePublisher>
+    <RegisteredVersion>1.0.0.0</RegisteredVersion>
+    <JitOptimizationSuppressed>True</JitOptimizationSuppressed>
+  </PropertyGroup>
+  <ItemGroup>
+    <AppXManifest Include="C:\Users\kvenc_000\Documents\GitHub\CastPod\CastPod\CastPod\CastPod.Windows\bin\Debug\AppxManifest.xml">
+      <PackagePath>AppxManifest.xml</PackagePath>
+      <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+      <Modified>2015-02-05T04:50:45.554</Modified>
+    </AppXManifest>
+  </ItemGroup>
+  <ItemGroup>
+    <AppxPackagedFile Include="C:\Users\kvenc_000\Documents\GitHub\CastPod\CastPod\CastPod\CastPod.Windows\bin\Debug\CastPod.Windows.exe">
+      <PackagePath>CastPod.Windows.exe</PackagePath>
+      <Modified>2015-02-05T04:50:45.412</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\kvenc_000\Documents\GitHub\CastPod\CastPod\CastPod\CastPod.Windows\Assets\Logo.scale-100.png">
+      <PackagePath>Assets\Logo.scale-100.png</PackagePath>
+      <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+      <Modified>2014-03-14T18:55:28.000</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\kvenc_000\Documents\GitHub\CastPod\CastPod\CastPod\CastPod.Windows\Assets\SmallLogo.scale-100.png">
+      <PackagePath>Assets\SmallLogo.scale-100.png</PackagePath>
+      <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+      <Modified>2014-03-14T18:55:28.000</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\kvenc_000\Documents\GitHub\CastPod\CastPod\CastPod\CastPod.Windows\Assets\SplashScreen.scale-100.png">
+      <PackagePath>Assets\SplashScreen.scale-100.png</PackagePath>
+      <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+      <Modified>2014-03-14T18:55:28.000</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\kvenc_000\Documents\GitHub\CastPod\CastPod\CastPod\CastPod.Windows\Assets\StoreLogo.scale-100.png">
+      <PackagePath>Assets\StoreLogo.scale-100.png</PackagePath>
+      <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+      <Modified>2014-03-14T18:55:28.000</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\kvenc_000\Documents\GitHub\CastPod\CastPod\CastPod\CastPod.Windows\bin\Debug\App.xbf">
+      <PackagePath>App.xbf</PackagePath>
+      <Modified>2015-02-05T04:43:41.907</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\kvenc_000\Documents\GitHub\CastPod\CastPod\CastPod\CastPod.Windows\bin\Debug\PlayerControl.xbf">
+      <PackagePath>PlayerControl.xbf</PackagePath>
+      <Modified>2015-02-05T04:50:45.228</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\kvenc_000\Documents\GitHub\CastPod\CastPod\CastPod\CastPod.Windows\bin\Debug\MainPage.xbf">
+      <PackagePath>MainPage.xbf</PackagePath>
+      <Modified>2015-02-05T04:50:45.226</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\kvenc_000\Documents\GitHub\CastPod\CastPod\CastPod\CastPod.Windows\bin\Debug\CastPod.Windows.xr.xml">
+      <PackagePath>CastPod.Windows.xr.xml</PackagePath>
+      <Modified>2015-02-05T04:50:45.211</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\kvenc_000\Documents\GitHub\CastPod\CastPod\CastPod\CastPod.Windows\bin\Debug\resources.pri">
+      <PackagePath>resources.pri</PackagePath>
+      <Modified>2015-02-05T04:50:45.490</Modified>
+    </AppxPackagedFile>
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+</Project>
