@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>0385b511-ce25-4a61-bbec-2bf1f6645061</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Common</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\DateTimeHelpers.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\ImageHelpers.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\EpisodeModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\EpisodeProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utilities\BindingClasses.cs" />
+  </ItemGroup>
+</Project>

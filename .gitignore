@@ -78,3 +78,13 @@ CastPod/CastPod.UWP/CastPod.Uwp_temporarykey.pfx
 
 CastPod/CastPod.Wasm/obj/
 CastPod/CastPod.Wasm/bin/
+
+CastPod/CastPod.UWP/AppPackages/
+
+CastPod/CastPod.UWP/BundleArtifacts/
+
+packages/
+
+SyncPod/bin/
+
+SyncPod/obj/
