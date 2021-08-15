@@ -9,8 +9,20 @@
         xmlns:extensions="clr-namespace:SyncPod.Extensions"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        <ListView ItemsSource="{Binding Episodes}" VirtualizingPanel.ScrollUnit="Pixel">
+    <Grid IsEnabled="{Binding NotLoading}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+            <TextBox IsEnabled="False" Text="{Binding Folder}" Margin="0,2,2,2"/>
+            <Button Grid.Column="1" Margin="2" Width="60" Click="BrowseButton_Click">Browse</Button>
+        </Grid>
+        <ListView ItemsSource="{Binding Episodes}" VirtualizingPanel.ScrollUnit="Pixel" Grid.Row="1">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <Grid Height="40">
