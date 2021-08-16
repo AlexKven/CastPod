@@ -22,6 +22,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Forms;
+using SyncPod.Controls;
 
 namespace SyncPod
 {
@@ -122,6 +123,12 @@ namespace SyncPod
             {
                 Folder = dialog.SelectedPath;
             }
+        }
+
+        private void ManageFeedsButton_Click(object sender, RoutedEventArgs e)
+        {
+            var dialog = new FeedDialog(EpisodeProvider);
+            dialog.ShowDialog();
         }
     }
 }

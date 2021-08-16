@@ -14,5 +14,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\EpisodeModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\EpisodeProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utilities\BindingClasses.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\FeedUrlViewModel.cs" />
   </ItemGroup>
 </Project>

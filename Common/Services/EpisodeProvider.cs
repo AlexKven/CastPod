@@ -11,6 +11,18 @@ using System.Threading.Tasks;
 
 namespace Common.Services
 {
+    public class FeedErrorEventArgs : EventArgs
+    {
+        public FeedErrorEventArgs(string feedUrl, Exception exception)
+        {
+            FeedUrl = feedUrl;
+            Exception = exception;
+        }
+
+        public string FeedUrl { get; }
+        public Exception Exception { get; }
+    }
+
     public class EpisodeProvider
     {
         private HttpClient HttpClient { get; }
@@ -71,32 +83,41 @@ namespace Common.Services
                 _Episodes.Clear();
                 foreach (var url in FeedUrls)
                 {
-                    var feed = await FeedReader.ReadAsync(url, cancellationToken);
-                    var thumbnail = await ImageHelpers.GetThumbnailFromUrl(HttpClient, feed.ImageUrl, 96, 96);
-                    foreach (var item in feed.Items)
+                    try
                     {
-                        var episode = new EpisodeModel();
-                        episode.Title = item.Title;
-                        episode.Description = item.Description;
-                        episode.Thumbnail = thumbnail;
-                        if (item.PublishingDate.HasValue)
-                            episode.PublishingDate = item.PublishingDate.Value;
-                        else
+                        var feed = await FeedReader.ReadAsync(url, cancellationToken);
+                        var thumbnail = await ImageHelpers.GetThumbnailFromUrl(HttpClient, feed.ImageUrl, 96, 96);
+                        foreach (var item in feed.Items)
                         {
-                            if (DateTimeHelpers.TryUniversalParseDate(item.PublishingDateString, out var dateTime))
-                                episode.PublishingDate = dateTime;
-                        }
-
-                        lock (Episodes)
-                        {
-                            var index = 0;
-                            while (Episodes.Count > index &&
-                                _Episodes[index].PublishingDate > episode.PublishingDate)
+                            var episode = new EpisodeModel();
+                            episode.Title = item.Title;
+                            episode.Description = item.Description;
+                            episode.Thumbnail = thumbnail;
+                            if (item.PublishingDate.HasValue)
+                                episode.PublishingDate = item.PublishingDate.Value;
+                            else
                             {
-                                index++;
+                                if (DateTimeHelpers.TryUniversalParseDate(item.PublishingDateString, out var dateTime))
+                                    episode.PublishingDate = dateTime;
                             }
-                            _Episodes.Insert(index, episode);
+
+                            lock (Episodes)
+                            {
+                                var index = 0;
+                                while (Episodes.Count > index &&
+                                    _Episodes[index].PublishingDate > episode.PublishingDate)
+                                {
+                                    index++;
+                                }
+                                _Episodes.Insert(index, episode);
+                            }
                         }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (ex is OperationCanceledException || ex is TaskCanceledException)
+                            throw;
+                        FeedError?.Invoke(this, new FeedErrorEventArgs(url, ex));
                     }
                 }
             }
@@ -117,5 +138,7 @@ namespace Common.Services
         private ObservableCollection<EpisodeModel> _Episodes
             = new ObservableCollection<EpisodeModel>();
         public ObservableCollection<EpisodeModel> Episodes => _Episodes;
+
+        public event EventHandler<FeedErrorEventArgs> FeedError;
     }
 }

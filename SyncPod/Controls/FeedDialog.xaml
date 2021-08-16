@@ -1,0 +1,45 @@
+﻿<Window x:Class="SyncPod.Controls.FeedDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:draw="clr-namespace:System.Drawing;assembly=System.Drawing"
+        xmlns:local="clr-namespace:SyncPod.Controls"
+        mc:Ignorable="d"
+        Title="FeedDialog" Height="450" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+            <TextBox Text="{Binding FeedUrlToAdd, Mode=TwoWay}"/>
+            <Button Grid.Column="1" Width="65" Command="{Binding AddCommand}"
+                CommandParameter="{Binding FeedUrlToAdd, Mode=OneWay}">Add Feed</Button>
+        </Grid>
+        <ItemsControl ItemsSource="{Binding Feeds}" Grid.Row="1">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Grid Height="20" Margin="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="{Binding Url}" VerticalAlignment="Center"/>
+                        <Image Grid.Column="1" Source="{Binding Source={x:Static draw:SystemIcons.Error},
+                                Converter={StaticResource IconToImageSourceConverter}}"
+                            Visibility="{Binding HasError,
+                                Converter={StaticResource BooleanToVisibilityConverter}}"
+                            VerticalAlignment="Stretch" />
+                        <Button Grid.Column="2" Width="60" Command="{Binding RemoveCommand}" CommandParameter="{Binding Url}">Remove</Button>
+                    </Grid>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+    </Grid>
+</Window>

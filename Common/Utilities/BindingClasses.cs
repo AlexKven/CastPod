@@ -141,6 +141,8 @@ namespace Common.Utilities
             CreateItemFunc = createItemFunc;
             DestroyItemFunc = destroyItemFunc;
 
+            SetUp(viewModel, control);
+
             _PreFeedItems.CollectionChanged += _PreFeedItems_CollectionChanged;
             _PostFeedItems.CollectionChanged += _PostFeedItems_CollectionChanged;
         }
@@ -268,6 +270,9 @@ namespace Common.Utilities
 
         protected override void SetUp(ObservableCollection<TFeed> viewModel, IList<TDest> control)
         {
+            if (CreateItemFunc == null)
+                return;
+
             viewModel.CollectionChanged += ViewModel_CollectionChanged;
             UpdateFeed(viewModel, control);
         }

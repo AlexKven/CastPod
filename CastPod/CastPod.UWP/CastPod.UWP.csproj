@@ -13,6 +13,9 @@
       -->
       <Version>6.2.11</Version>
     </PackageReference>
+    <PackageReference Include="Refractored.MvvmHelpers">
+      <Version>1.6.2</Version>
+    </PackageReference>
     <PackageReference Include="SkiaSharp">
       <Version>2.88.0-preview.61</Version>
     </PackageReference>
