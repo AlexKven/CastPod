@@ -23,6 +23,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Forms;
 using SyncPod.Controls;
+using Common.ViewModels;
 
 namespace SyncPod
 {
@@ -33,24 +34,39 @@ namespace SyncPod
     {
         private EpisodeProvider EpisodeProvider { get; }
         private SettingsManager SettingsManager { get; } = new SettingsManager();
+        private DownloadManager DownloadManager { get; } = new DownloadManager();
 
         public MainWindow()
         {
             InitializeComponent();
             EpisodeProvider = new EpisodeProvider(new HttpClient());
-            var binding = new FeedDisplayBinding<EpisodeModel, EpisodeModel>(
+            EpisodeProvider.LoadProgress += EpisodeProvider_LoadProgress;
+            var binding = new FeedDisplayBinding<EpisodeModel, EpisodeViewModel>(
                 EpisodeProvider.Episodes,
                 Episodes,
-                ep => ep);
-            binding.MaxItems = 2000;
+                ep => DownloadManager.AddEpisode(ep),
+                ep => DownloadManager.RemoveEpisode(ep));
+            binding.MaxItems = 400;
             DataContext = this;
-            //EpisodeProvider.FeedUrls.Add("http://feeds.feedburner.com/netRocksFullMp3Downloads");
-            //EpisodeProvider.FeedUrls.Add("https://feeds.megaphone.fm/WWO8086402096");
-            //EpisodeProvider.FeedUrls.Add("http://www.espn.com/espnradio/podcast/feeds/itunes/podCast?id=14554755");
-            //EpisodeProvider.FeedUrls.Add("https://feeds.megaphone.fm/theweeds");
-            //EpisodeProvider.FeedUrls.Add("https://feeds.megaphone.fm/VMP5705694065");
+            DownloadManager.PropertyChanged += DownloadManager_PropertyChanged;
 
             RunTask(Initialize());
+        }
+
+        private void EpisodeProvider_LoadProgress(object sender, (int, int) e)
+        {
+            if (e.Item2 == 0)
+            {
+                FeedLoadPregressBar.Visibility = Visibility.Collapsed;
+                NotLoading = true;
+            }
+            else
+            {
+                NotLoading = false;
+                FeedLoadPregressBar.Visibility = Visibility.Visible;
+                FeedLoadPregressBar.Maximum = e.Item2;
+                FeedLoadPregressBar.Value = e.Item1;
+            }
         }
 
         private async Task Initialize()
@@ -58,16 +74,11 @@ namespace SyncPod
             NotLoading = false;
             await SettingsManager.LoadSettings();
             Folder = SettingsManager.GetValue("folder", Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments));
-            var feeds = SettingsManager.GetValue("feeds", new List<string>()
-            {
-                "http://feeds.feedburner.com/netRocksFullMp3Downloads",
-                "https://feeds.megaphone.fm/WWO8086402096"
-            });
+            var feeds = SettingsManager.GetValue("feeds", new string[0]);
             foreach (var feed in feeds)
             {
                 EpisodeProvider.FeedUrls.Add(feed);
             }
-            await SettingsManager.SaveSettings();
             NotLoading = true;
         }
 
@@ -84,8 +95,8 @@ namespace SyncPod
             }
         }
 
-        public ObservableCollection<EpisodeModel> Episodes { get; }
-            = new ObservableCollection<EpisodeModel>();
+        public ObservableCollection<EpisodeViewModel> Episodes { get; }
+            = new ObservableCollection<EpisodeViewModel>();
 
         private bool _NotLoading = true;
         public bool NotLoading
@@ -105,7 +116,19 @@ namespace SyncPod
             set
             {
                 _Folder = value;
+                DownloadManager.FolderPath = Folder;
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Folder)));
+            }
+        }
+
+        private bool _FolderError;
+        public bool FolderError
+        {
+            get => _FolderError;
+            private set
+            {
+                _FolderError = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(FolderError)));
             }
         }
 
@@ -122,6 +145,8 @@ namespace SyncPod
             if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 Folder = dialog.SelectedPath;
+                SettingsManager.SetValue("folder", Folder);
+                RunTask(SettingsManager.SaveSettings());
             }
         }
 
@@ -129,6 +154,21 @@ namespace SyncPod
         {
             var dialog = new FeedDialog(EpisodeProvider);
             dialog.ShowDialog();
+            SettingsManager.SetValue("feeds", EpisodeProvider.FeedUrls.ToArray());
+            RunTask(SettingsManager.SaveSettings());
+        }
+
+        private void DownloadManager_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(DownloadManager.FolderError))
+            {
+                FolderError = DownloadManager.FolderError;
+            }
+        }
+
+        private void RefreshButton_Click(object sender, RoutedEventArgs e)
+        {
+            DownloadManager.RefreshDownloads();
         }
     }
 }

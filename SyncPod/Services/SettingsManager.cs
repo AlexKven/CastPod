@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Dynamic;
@@ -16,12 +17,45 @@ namespace SyncPod.Services
 
         public T GetValue<T>(string name, T defaultValue)
         {
+            var type = typeof(T);
             if (Settings.TryGetValue(name, out var result))
             {
                 if (result is T typed)
                     return typed;
                 else
-                    return defaultValue;
+                {
+                    if (typeof(IConvertible).IsAssignableFrom(type))
+                    {
+                        var boxed = Convert.ChangeType(result, type);
+                        if (boxed != null)
+                        {
+                            return (T)boxed;
+                        }
+                        else
+                            return defaultValue;
+                    }
+                    else
+                    {
+                        if (result is JArray jArray && type.IsArray && type.GetArrayRank() == 1)
+                        {
+                            var itemType = type.GetElementType();
+                            var array = Array.CreateInstance(itemType, jArray.Count);
+                            int index = 0;
+                            foreach (var item in jArray)
+                            {
+                                try
+                                {
+                                    array.SetValue(item.ToObject(itemType), index);
+                                }
+                                catch (Exception) { }
+                                index++;
+                            }
+                            return (T)(object)array;
+                        }
+                        else
+                            return defaultValue;
+                    }
+                }
             }
             else
             {
@@ -47,7 +81,6 @@ namespace SyncPod.Services
                     Settings = JsonConvert.DeserializeObject<Dictionary<string, object>>(json);
                 }
             }
-
         }
 
         public async Task SaveSettings()

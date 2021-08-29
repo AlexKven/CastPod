@@ -17,8 +17,8 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="auto"/>
             </Grid.ColumnDefinitions>
-            <TextBox Text="{Binding FeedUrlToAdd, Mode=TwoWay}"/>
-            <Button Grid.Column="1" Width="65" Command="{Binding AddCommand}"
+            <TextBox Text="{Binding FeedUrlToAdd, Mode=TwoWay}" Margin="2" />
+            <Button Grid.Column="1" Width="65" Command="{Binding AddCommand}" Margin="0, 2, 2, 2"
                 CommandParameter="{Binding FeedUrlToAdd, Mode=OneWay}">Add Feed</Button>
         </Grid>
         <ItemsControl ItemsSource="{Binding Feeds}" Grid.Row="1">

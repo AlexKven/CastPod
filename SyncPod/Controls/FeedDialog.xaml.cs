@@ -47,10 +47,12 @@ namespace SyncPod.Controls
         private class AddFeedCommand : ICommand
         {
             private EpisodeProvider EpisodeProvider { get; }
+            private FeedDialog FeedDialog { get; }
 
-            public AddFeedCommand(EpisodeProvider episodeProvider)
+            public AddFeedCommand(EpisodeProvider episodeProvider, FeedDialog feedDialog)
             {
                 EpisodeProvider = episodeProvider;
+                FeedDialog = feedDialog;
             }
 
             public event EventHandler CanExecuteChanged;
@@ -62,6 +64,7 @@ namespace SyncPod.Controls
                 var url = parameter as string;
                 if (url != null && !EpisodeProvider.FeedUrls.Contains(url))
                     EpisodeProvider.FeedUrls.Add(url);
+                FeedDialog.FeedUrlToAdd = "";
             }
         }
 
@@ -73,7 +76,7 @@ namespace SyncPod.Controls
 
             EpisodeProvider = episodeProvider;
             RemoveCommand = new RemoveFeedCommand(EpisodeProvider);
-            AddCommand = new AddFeedCommand(EpisodeProvider);
+            AddCommand = new AddFeedCommand(EpisodeProvider, this);
 
             var binding = new FeedDisplayBinding<string, FeedUrlViewModel>(
                 EpisodeProvider.FeedUrls, Feeds,

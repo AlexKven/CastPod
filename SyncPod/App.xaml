@@ -7,5 +7,6 @@
     <Application.Resources>
         <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
         <converters:IconToImageSourceConverter x:Key="IconToImageSourceConverter"/>
+        <converters:DownloadStatusColorConverter x:Key="DownloadStatusColorConverter"/>
     </Application.Resources>
 </Application>

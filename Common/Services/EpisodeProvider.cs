@@ -1,6 +1,7 @@
 ﻿using CodeHollow.FeedReader;
 using Common.Helpers;
 using Common.Models;
+using Common.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -26,6 +27,9 @@ namespace Common.Services
     public class EpisodeProvider
     {
         private HttpClient HttpClient { get; }
+
+        private MemoryCache<string, Feed> FeedCache { get; }
+            = new MemoryCache<string, Feed>(TimeSpan.FromMinutes(30));
 
         public EpisodeProvider(HttpClient httpClient)
         {
@@ -81,11 +85,13 @@ namespace Common.Services
                     return;
 
                 _Episodes.Clear();
+                int progress = 0;
                 foreach (var url in FeedUrls)
                 {
+                    LoadProgress?.Invoke(this, (progress, FeedUrls.Count));
                     try
                     {
-                        var feed = await FeedReader.ReadAsync(url, cancellationToken);
+                        var feed = await FeedCache.GetAsync(url, () => FeedReader.ReadAsync(url, cancellationToken));
                         var thumbnail = await ImageHelpers.GetThumbnailFromUrl(HttpClient, feed.ImageUrl, 96, 96);
                         foreach (var item in feed.Items)
                         {
@@ -93,6 +99,8 @@ namespace Common.Services
                             episode.Title = item.Title;
                             episode.Description = item.Description;
                             episode.Thumbnail = thumbnail;
+                            episode.FeedName = feed.Title;
+                            episode.DownloadUrl = item.GetDownloadUrl();
                             if (item.PublishingDate.HasValue)
                                 episode.PublishingDate = item.PublishingDate.Value;
                             else
@@ -119,7 +127,9 @@ namespace Common.Services
                             throw;
                         FeedError?.Invoke(this, new FeedErrorEventArgs(url, ex));
                     }
+                    progress++;
                 }
+                LoadProgress?.Invoke(this, (0, 0));
             }
             finally
             {
@@ -140,5 +150,7 @@ namespace Common.Services
         public ObservableCollection<EpisodeModel> Episodes => _Episodes;
 
         public event EventHandler<FeedErrorEventArgs> FeedError;
+
+        public event EventHandler<(int, int)> LoadProgress;
     }
 }

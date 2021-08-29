@@ -11,7 +11,9 @@ namespace Common.Models
         public string Title { get; set; }
         public string Description { get; set; }
         public SKBitmap Thumbnail { get; set; }
-        public string FeedSummary => $"{Title} | {PublishingDate?.ToShortDateString()}";
-        public bool IsDownloaded { get; set; }
+
+        public string FeedName { get; set; }
+
+        public string DownloadUrl { get; set; }
     }
 }
